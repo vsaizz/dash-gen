@@ -20,4 +20,7 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 - Coder: Recieves the plan+data and generates the dashboard script.
 - Bug Fixer / Optimizer: Reviews the full code and think of ways to improve/catch potential errors.
 
-## Demo
+### Demo
+
+- [📹 Exoplanets Dashboard Demo](https://github.com/vsaizz/dash-gen/raw/main/test_exoplanets.mov)
+- [📹 Mars Weather Dashboard Demo](https://github.com/vsaizz/dash-gen/raw/main/test_mars_weather.mov)
