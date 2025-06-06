@@ -21,8 +21,8 @@ def main():
 
     prompt = st.text_area("Describe dashboard concept:", 
                           placeholder="Say something like... \n"
-                          "'I want a dashboard that shows Mars weather trends for the past week.'\n"
-                          "'Show me asteroids near Earth and let me sort by size and distance.'")
+                          "'I need to categorize and understand exoplanets.'\n"
+                          "'Make a dashboard to monitor weather on Mars.'\n" )
     
     show_code = st.checkbox("Show code outputs", value=True)
 
@@ -51,19 +51,19 @@ def main():
             final_code = debug_agent(raw_code)
             if show_code:
                 st.subheader("Final Debugged Code")
-                st.code(final_code, language="python")
+                st.code(final_code["cleaned_code"], language="python")
 
         st.success("Dashboard code generated and debugged.")
 
         # save to file
-        with open("dashboard_generated.py", "w") as f:
+        with open("dashboard_final.py", "w") as f:
             f.write(final_code["cleaned_code"])
-        st.success("Dashboard code saved to dashboard_generated.py")
+        st.success("Dashboard code saved to dashboard_final.py")
 
 
 
         # Launch in new subprocess
-        subprocess.Popen(["streamlit", "run", "dashboard_generated.py", "--server.port", "8502"])
+        subprocess.Popen(["streamlit", "run", "dashboard_final.py", "--server.port", "8502"])
         time.sleep(3)
 
         st.markdown("### Dashboard Launched:")

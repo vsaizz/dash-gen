@@ -2,10 +2,7 @@
 
 from openai import OpenAI
 import json
-# import ast
-# import subprocess
-# import tempfile
-# import os
+import requests
 
 from utils import run_code_in_sub
 
@@ -26,7 +23,7 @@ def planning_agent(user_prompt):
     Include list of specific data needed for Data Sourcing Agent to find. Do not include ``` header."""
 
     response = client.chat.completions.create(
-                model = "gpt-4.1-mini",
+                model = "gpt-4.1-nano",
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
@@ -48,22 +45,33 @@ def data_agent(plan):
         plan: JSON with specific data requirements
 
     Returns:
-        data_info: JSON with description of data requirements and Python code to pull data.
+        data_info: Python code string to pull valid NASA data, based on the official NASA APIs directory.
     """
     client = OpenAI()
 
-    system_prompt = """You are a data sourcing agent. Based on the prompt plan, 
-    find the proper NASA API data to get the required data. If other APIs are needed use only free sources without
-    signup needed. You do not have any API keys other than NASA. Then, generate valid Python code to pull that data.
+    # Fetch NASA API directory JSON from official GitHub source
+    nasa_apis_url = "https://raw.githubusercontent.com/nasa/api-docs/gh-pages/assets/json/apis.json"
+    try:
+        response = requests.get(nasa_apis_url, timeout=10)
+        nasa_apis = response.json()
+    except Exception as e:
+        return f"# Error fetching NASA APIs list: {e}"
+
+    system_prompt = f"""You are a data sourcing agent. Based on the prompt plan, 
+    find the proper NASA API data to get the required data. Use only the following list of NASA APIs and no others:
+
+    {json.dumps(nasa_apis, indent=2)}
+
+    If other APIs are needed use only free sources without signup needed. You do not have any API keys other than NASA. 
+    Then, generate valid Python code to pull that data. Do not use placeholders.
     Only return the valid Python code to source the data. This code will be used. Complete all the requirements
-    given by the prompt agent. Include a test pulling all necessary data into a variable called 'data'.
-    Be sure that there is actual data. Use historical data if no live data is available. Find as much data as possible.
-    Do not include ``` header. Only python code."""
+    given by the prompt agent. Be sure that there is actual data. Use historical data if no live data is available. Find as much data as possible.
+    Do not include any markdown or ``` headers. Only python code."""
 
     user_content = json.dumps(plan)
 
     response = client.chat.completions.create(
-                model = "gpt-4o-mini",
+                model = "gpt-4.1-mini",
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_content}
@@ -72,6 +80,7 @@ def data_agent(plan):
             )
     data_info = response.choices[0].message.content
     return data_info
+
     
 
 
@@ -91,14 +100,15 @@ def coder_agent(plan, data_info):
     system_prompt = """You are a skilled software engineer proficient in Python. You receive a project plan and 
     Python code that pulls data from NASA APIs. Your job is to use the data to produce a complete Streamlit dashboard.
     Dashboard should be interactive, visualize data using plots as needed, include titles and explanations, 
-    be readable and modular, include data fetching and loading code as given by data agent, handle errors in data.
+    be readable and modular, include data fetching and loading code as given by data agent, handle errors in data. 
     Return only working executable complete Python code as your final output. Do not use markdown formatting. 
-    No '```python'"""
+    No '```python'
+    Do not make up example or synthetic data."""
     
     user_prompt = f'''Plan:\n{json.dumps(plan, indent=1)}\nData Info:\n{data_info}'''
 
     response = client.chat.completions.create(
-                model = "gpt-4o-mini",
+                model = "gpt-4.1-nano",
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
@@ -112,10 +122,11 @@ def coder_agent(plan, data_info):
     
 
 
-def debug_agent(initial_code, iterations=3,filename="dashboard_generated.py"):
+
+def debug_agent(initial_code, iterations=2, filename="dashboard_test.py"):
     """
     Iteratively debug Python dashboard code by running and fixing it multiple times.
-    
+
     Args:
         initial_code (str): Initial Python code to debug.
         iterations (int): Number of debug-run cycles to perform.
@@ -126,44 +137,52 @@ def debug_agent(initial_code, iterations=3,filename="dashboard_generated.py"):
             'status': 'success' or 'failure',
             'cleaned_code': final debugged code string,
             'error': error message if failure,
-            'logs': list of dicts with keys ['stdout', 'stderr', 'returncode', 'timed_out'] for each run
+            'logs': list of dicts with keys ['stdout', 'stderr', 'returncode', 'timed_out', 'html', 'port']
         }
     """
     client = OpenAI()
     current_code = initial_code
     logs = []
 
-    system_prompt = """You are in charge of debugging the dashboard python code. 
-    The NASA API key is an env variable named 'NASA_API_KEY'. OpenAI API key:'OPENAI_API_KEY. Do not use streamlit secrets.
-    Check that all syntax is correct. Ensure that code will run and generate a valid dashboard. 
-    You are the final step before code is given to the user. Do not include '```python'. Code must
-    be runnable. Only export python code. No description. use st.cache_data not st.cache. Pay attention to data types
-    
-    Catch any potential runtime issues, especially related to:
-        - API calls returning None or missing keys
-        - Unpacking errors
-        - Deprecated features in Streamlit
-    Ensure the function always returns safely unpackable values.
-    Make sure that there is actual data and that the graphs are populated."""
-    
-    for i in range(iterations):
-        user_prompt = f"Here is the current code:\n{current_code}\n\n" \
-                      f"Here is the output from running this code:\n"
-        if i > 0:
-            last_log = logs[-1]
-            user_prompt += f"STDOUT:\n{last_log['stdout']}\nSTDERR:\n{last_log['stderr']}\n"
+    system_prompt = """You are responsible for debugging Python code that implements a Streamlit dashboard. You will receive:
+            The full Python code of the dashboard,
+            The HTML output from running that dashboard (which may indicate rendering or data issues),
+            Any error messages or logs generated from the last run.
+        Your task is to carefully analyze all provided information and:
+            Correct all errors and exceptions, including syntax, runtime, and logical issues.
+            Use the NASA API key as an environment variable named NASA_API_KEY. Do not hardcode API keys or use Streamlit secrets. Do not use DEMO api key.
+            Verify that all data sources used in the dashboard are valid and accessible. If data is missing or invalid, modify the code to find alternative data. Keep to the original concept.
+            Ensure the final code will run without errors and generate a complete, functional dashboard with meaningful data visualizations.
+            Do not include any explanations or markdown code blocks. Only output the corrected Python code.
+            Your corrections should be thorough and final, as this is the last debugging step before the code is delivered to the user.
+            If html does not include data, update code with new data sources using NASA API as outlined in current code.
+        Do not include '```python' or any headers. Only output clean code."""
 
-        # Ask GPT to debug/fix the code given current output
+    for i in range(iterations):
+        # Save current code to file
+        with open(filename, "w") as f:
+            f.write(current_code)
+
+        # Run and capture output
+        run_result = run_code_in_sub(filename)
+        logs.append(run_result)
+
+        # Build prompt with current code and current run output
+        user_prompt = f"Here is the current code:\n{current_code}\n\n" \
+                      f"STDOUT:\n{run_result['stdout']}\n" \
+                      f"STDERR:\n{run_result['stderr']}\n" \
+                      f"HTML OUTPUT:\n{run_result['html']}\n"
+
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4.1",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
                 ],
-                temperature=0.3,
+                temperature=0.1,
             )
-            fixed_code = response.choices[0].message.content.strip()
+            current_code = response.choices[0].message.content
         except Exception as e:
             return {
                 "status": "failure",
@@ -172,30 +191,17 @@ def debug_agent(initial_code, iterations=3,filename="dashboard_generated.py"):
                 "logs": logs,
             }
 
-        # Save fixed code to file
-        with open(filename, "w") as f:
-            f.write(fixed_code)
-
-        # Run the code in subprocess
-        run_result = run_code_in_sub(filename)
-        logs.append(run_result)
-
-        # If no error and no timeout, we can stop early
-        if run_result["returncode"] == 0 and not run_result["timed_out"]:
-            return {
-                "status": "success",
-                "cleaned_code": fixed_code,
-                "error": None,
-                "logs": logs,
-            }
-
-        # Prepare for next iteration
-        current_code = fixed_code
-
-    # If after iterations still errors, return failure with last code and logs
+    # if run_result["returncode"] == 0 and not run_result["timed_out"]:
     return {
-        "status": "failure",
+        "status": "success",
         "cleaned_code": current_code,
-        "error": "Code still errors after debugging attempts.",
+        "error": None,
         "logs": logs,
     }
+        
+    # return {
+    #     "status": "failure",
+    #     "cleaned_code": current_code,
+    #     "error": "Code still errors after debugging attempts.",
+    #     "logs": logs,
+    # }

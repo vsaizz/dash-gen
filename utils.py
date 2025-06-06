@@ -2,7 +2,7 @@ import subprocess
 from playwright.sync_api import sync_playwright
 import time
 
-def run_code_in_sub(filename, timeout=10, html_capture_timeout=5):
+def run_code_in_sub(filename, timeout=10, html_capture_timeout=10):
     """
     Runs a Streamlit dashboard from Python file as subprocess and captures the HTML output.
 
@@ -21,7 +21,7 @@ def run_code_in_sub(filename, timeout=10, html_capture_timeout=5):
         }
     """
     process = subprocess.Popen(
-        ["streamlit", "run", filename, "--server.port", "8502"],
+        ["streamlit", "run", filename, "--server.headless true", "--server.port", "8502"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True
@@ -60,14 +60,3 @@ def run_code_in_sub(filename, timeout=10, html_capture_timeout=5):
         "html": html
     }
 
-    
-def export_streamlit_dashboard_html(url="http://localhost:8502", output_file="dashboard_output.html", wait_time=3):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.goto(url)
-        page.wait_for_timeout(wait_time * 1000)  # Wait a bit for Streamlit to fully render
-        html = page.content()
-        with open(output_file, "w", encoding="utf-8") as f:
-            f.write(html)
-        browser.close()
