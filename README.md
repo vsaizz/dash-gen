@@ -24,11 +24,9 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 
 #### Exoplanets Dashboard Demo
 
-<video src="test_exoplanets.mp4" muted playsinline controls></video>
-
-https://github.com/vsaizz/dash-gen/blob/main/test_exoplanets.mp4
+[![Watch the video](https://github.com/vsaizz/dash-gen/blob/a48dc9cc00c47a9bea894869759c0fb0ff26b050/thumbnail_exoplanets.png)](https://github.com/vsaizz/dash-gen/blob/a48dc9cc00c47a9bea894869759c0fb0ff26b050/test_exoplanets.mp4)
 
 #### Mars Weather Dashboard Demo
 
-<video src="test_mars_weather.mp4" muted playsinline controls></video>
+[![Watch the video](https://github.com/vsaizz/dash-gen/blob/a48dc9cc00c47a9bea894869759c0fb0ff26b050/thumbnail_mars_weather.png)](https://github.com/vsaizz/dash-gen/blob/a48dc9cc00c47a9bea894869759c0fb0ff26b050/test_mars_weather.mp4)
 
