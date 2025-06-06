@@ -20,36 +20,12 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 - Coder: Recieves the plan+data and generates the dashboard script.
 - Bug Fixer / Optimizer: Reviews the full code and think of ways to improve/catch potential errors.
 
-### Demo
-
-#### Exoplanets Dashboard Demo
-
-[![Watch the video](https://raw.githubusercontent.com/vsaizz/dash-gen/a48dc9cc00c47a9bea894869759c0fb0ff26b050/thumbnail_exoplanets.png)](https://raw.githubusercontent.com/vsaizz/dash-gen/a48dc9cc00c47a9bea894869759c0fb0ff26b050/test_exoplanets.mp4)
-
-
-#### Mars Weather Dashboard Demo
-
-
-[![Watch the video](https://raw.githubusercontent.com/vsaizz/dash-gen/a48dc9cc00c47a9bea894869759c0fb0ff26b050/thumbnail_mars_weather.png)](https://raw.githubusercontent.com/vsaizz/dash-gen/a48dc9cc00c47a9bea894869759c0fb0ff26b050/test_mars_weather.mp4)
 
 ### Demo
 
 #### Exoplanets Dashboard Demo
 
-<video src="test_exoplanets.mp4" muted playsinline controls></video>
-
-https://github.com/vsaizz/dash-gen/blob/main/test_exoplanets.mp4
-
-#### Mars Weather Dashboard Demo
-
-<video src="test_mars_weather.mp4" muted playsinline controls></video>
-
-
-### Demo
-
-#### Exoplanets Dashboard Demo
-
-[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://youtube.com/water?v=5LjwMMhAAM0)
+[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://www.youtube.com/watch?v=k1Szktv6YOQ)
 
 #### Mars Weather Dashboard Demo
 
