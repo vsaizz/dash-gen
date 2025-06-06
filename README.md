@@ -43,3 +43,14 @@ https://github.com/vsaizz/dash-gen/blob/main/test_exoplanets.mp4
 #### Mars Weather Dashboard Demo
 
 <video src="test_mars_weather.mp4" muted playsinline controls></video>
+
+
+### Demo
+
+#### Exoplanets Dashboard Demo
+
+[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://youtube.com/shorts/5LjwMMhAAM0?feature=share)
+
+#### Mars Weather Dashboard Demo
+
+[![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_mars_weather.png)](https://youtube.com/shorts/k1Szktv6YOQ?feature=share)
