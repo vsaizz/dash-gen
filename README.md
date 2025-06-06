@@ -22,5 +22,10 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 
 ### Demo
 
-- [![Exoplanets Dashboard Demo](thumbnail_exoplanets.png)](https://youtube.com/shorts/k1Szktv6YOQ?feature=share)
-- [![Mars Weather Dashboard Demo](thumbnail_mars_weather.png](https://youtube.com/shorts/5LjwMMhAAM0)
+#### Exoplanets Dashboard Demo
+
+<video src="test_exoplanets.mp4" muted playsinline controls></video>
+
+#### Mars Weather Dashboard Demo
+
+<video src="test_mars_weather.mp4" muted playsinline controls></video>
