@@ -21,12 +21,12 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 - Bug Fixer / Optimizer: Reviews the full code and think of ways to improve/catch potential errors.
 
 
-### Demo
+### Demo Videos
 
-#### Exoplanets Dashboard Demo
+#### Exoplanets Dashboard Video Link
 
 [![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://www.youtube.com/watch?v=k1Szktv6YOQ)
 
-#### Mars Weather Dashboard Demo
+#### Mars Weather Dashboard Video Link
 
 [![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_mars_weather.png)](https://www.youtube.com/watch?v=5LjwMMhAAM0)
