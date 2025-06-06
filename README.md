@@ -49,8 +49,8 @@ https://github.com/vsaizz/dash-gen/blob/main/test_exoplanets.mp4
 
 #### Exoplanets Dashboard Demo
 
-[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://youtube.com/shorts/5LjwMMhAAM0?feature=share)
+[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://youtube.com/water?v=5LjwMMhAAM0)
 
 #### Mars Weather Dashboard Demo
 
-[![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_mars_weather.png)](https://youtube.com/shorts/k1Szktv6YOQ?feature=share)
+[![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_mars_weather.png)](https://www.youtube.com/watch?v=5LjwMMhAAM0)
