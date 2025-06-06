@@ -25,8 +25,8 @@ Demonstrate LLM application generation techniques. This generator prompts the us
 
 #### Exoplanets Dashboard Video Link
 
-[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_exoplanets.png)](https://www.youtube.com/watch?v=k1Szktv6YOQ)
+[![Watch the Exoplanets Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/videos/thumbnail_exoplanets.png)](https://www.youtube.com/watch?v=k1Szktv6YOQ)
 
 #### Mars Weather Dashboard Video Link
 
-[![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/thumbnail_mars_weather.png)](https://www.youtube.com/watch?v=5LjwMMhAAM0)
+[![Watch the Mars Weather Demo](https://raw.githubusercontent.com/vsaizz/dash-gen/main/videos/thumbnail_mars_weather.png)](https://www.youtube.com/watch?v=5LjwMMhAAM0)
